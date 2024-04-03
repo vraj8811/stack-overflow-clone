@@ -1,13 +1,14 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import {getAuth,GoogleAuthProvider} from 'firebase/auth'
+import { APIKEY } from "./asset";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAcin0XzyM_p5pwVnQrAOMfIZezS4mYdHk",
+  apiKey: {APIKEY},
   authDomain: "stackoverflow-b6223.firebaseapp.com",
   projectId: "stackoverflow-b6223",
   storageBucket: "stackoverflow-b6223.appspot.com",
