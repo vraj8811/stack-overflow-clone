@@ -3,12 +3,19 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import './Question.css'
 import { TagsInput } from "react-tag-input-component";
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { selectUser } from "../../features/userSlice";
 
 const Question = () => {
     
     const [tag, setTag] = useState([]);
+    const user = useSelector(selectUser);
+    
     return (
-        <div className="add-question">
+        <>
+        {
+            user ? ( <div className="add-question">
             <div className="add-question-container">
                 <div className="head-title">
                     <h1>Ask a public question</h1>
@@ -44,7 +51,9 @@ const Question = () => {
                 </div>
                 <button className='button'>Add your question</button>
             </div>
-        </div>
+        </div>) : (<Navigate to="/auth" replace />)
+        }
+        </>
     )
 }
 
