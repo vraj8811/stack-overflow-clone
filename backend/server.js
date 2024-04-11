@@ -4,6 +4,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const path = require("path");
 const PORT = process.env.PORT || 80;
+const router = require('./routers')
+const db = require('./db');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -14,6 +16,14 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Headers", "*");
     next();
 });
+
+//db connect
+db.connect();
+
+
+//apis
+
+app.use('/api',router);
 
 app.use("/uploads", express.static(path.join(__dirname, "/../uploads")));
 app.use(express.static(path.join(__dirname, "/../frontend/build")));
