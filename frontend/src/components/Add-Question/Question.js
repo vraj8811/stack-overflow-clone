@@ -24,7 +24,7 @@ const Question = () => {
                     <div className="question-options">
 
                         <div className="question-option">
-                            <div className="title">
+                            <div className="title" style={{justifyContent:"space-between"}}>
                                 <h3>Title</h3>
                                 <small>Be specific and imaging you're asking a question to another person</small>
                                 <input type='text' placeholder='Add Question Title' />
