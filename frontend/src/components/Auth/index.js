@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import './index.css';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, provider } from '../../firebase'
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../features/userSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 const Index = () => {
@@ -12,6 +14,11 @@ const Index = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const navi = useNavigate();
+    const user = useSelector(selectUser);
+
+    if(user){
+        navi("/");
+    }
 
     function validateEmail(email) {
         const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;

@@ -6,17 +6,22 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon backend/server.js",
-    "client" : "npm start --prefix frontend",
+    "client": "npm start --prefix frontend",
     "start": "nodemon --watch backend --exec node backend/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.6.8",
     "body-parser": "^1.20.2",
+    "buffer": "^6.0.3",
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "highlight.js": "^11.9.0",
     "mongoose": "^8.2.3",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "react-html-parser": "^2.0.2",
+    "redux-devtools-extension": "^2.13.9"
   }
 }

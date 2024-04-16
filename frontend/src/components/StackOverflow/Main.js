@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import FilterListIcon from '@mui/icons-material/FilterList';
 import AllQuestion from './AllQuestion';
 
-const Main = () => {
+const Main = ({ questions }) => {
     return (
         <div className="main">
             <div className="main-container">
@@ -17,7 +17,7 @@ const Main = () => {
                 </div>
 
                 <div className="main-desc">
-                    <p>All Question stat</p>
+                    <p>{questions?.length} Questions</p>
                     <div className="main-filter">
 
                         <div className="main-tabs">
@@ -37,7 +37,7 @@ const Main = () => {
                         </div>
 
                         <div className="main-filter-item">
-                            <FilterListIcon/>
+                            <FilterListIcon />
                             <p>Filter</p>
                         </div>
 
@@ -45,15 +45,16 @@ const Main = () => {
                 </div>
 
                 <div className="questions">
-                    <div className="question">
-                        <AllQuestion/>
-                        <AllQuestion/>
-                        <AllQuestion/>
-                        <AllQuestion/>
-                        <AllQuestion/>
-                    </div>
+                    {
+                        questions.map((que) => (
+                            <>
+                                <div key={que._id} className="question">
+                                    <AllQuestion questions={que} />
+                                </div>
+                            </>
+                        ))
+                    }
                 </div>
-
             </div>
         </div>
     )

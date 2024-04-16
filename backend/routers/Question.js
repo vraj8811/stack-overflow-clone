@@ -6,7 +6,7 @@ const QuestionDB = require("../models/Question");
 router.post('/', async (req, res) => {
     try {
 
-        if (!req.body.title || !req.body.body || !req.body.tags) {
+        if (!req.body.title || !req.body.body || !req.body.tag) {
             return res.status(400).send({
                 message: "Missing Parameter..!!"
             });
