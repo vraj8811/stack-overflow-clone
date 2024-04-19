@@ -15,6 +15,10 @@ const answerSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Comments",
   },
+  votes: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model("Answers", answerSchema);

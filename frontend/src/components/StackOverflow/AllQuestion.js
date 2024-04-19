@@ -12,6 +12,7 @@ const AllQuestion = (question) => {
       }
 
     return (
+
         <div className="all-questions">
             <div className="all-questions-container">
                 <div className="all-questions-left">
@@ -19,7 +20,7 @@ const AllQuestion = (question) => {
                     <div className="all-options">
 
                         <div className="all-option">
-                            <p>0</p>
+                            <p>{question?.questions?.votes}</p>
                             <span>Votes</span>
                         </div>
 
@@ -29,8 +30,8 @@ const AllQuestion = (question) => {
                         </div>
 
                         <div className="all-option">
-                            <p>0</p>
-                            <small>0 Views</small>
+                            <p>{question?.questions?.views > 1000 ? `${(question?.questions?.views / 1000).toFixed(1)}k` : question?.questions?.views}</p>
+                            <small>Views</small>
                         </div>
                     </div>
 

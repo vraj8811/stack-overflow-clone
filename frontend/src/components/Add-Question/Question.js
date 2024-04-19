@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { selectUser } from "../../features/userSlice";
 import axios from 'axios';
-import { Delta } from 'quill';
+//import { Delta } from 'quill';
 
 const Question = () => {
 

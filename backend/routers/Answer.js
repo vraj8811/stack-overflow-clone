@@ -32,6 +32,36 @@ router.post("/", async (req, res) => {
       message: "Error while adding Answer",
     });
   }
-});;
+});
+
+router.put("/:id/vote", async (req, res) => {
+  try {
+
+    const { vote } = req.body;
+    if (!vote) {
+      return res.status(400).send({
+        message: "Missing Parameter..!!"
+      });
+    }
+
+    const answer = await answerDB.findById(req.params.id);
+
+    if (!answer) {
+      return res.status(404).send({
+        message: "Answer not found",
+      });
+    }
+
+    answer.votes = answer.votes + vote;
+
+    await answer.save();
+    res.status(200).send(answer);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send({
+      message: "Error while updating Answer",
+    });
+  }
+});
 
 module.exports = router;

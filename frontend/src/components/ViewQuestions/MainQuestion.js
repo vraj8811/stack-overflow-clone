@@ -29,10 +29,18 @@ const MainQuestion = () => {
           setQuestionDetails(res.data[0])
         }).catch(err => {
           console.log(err)
-        })
+        });
+
+        await axios.put(`api/question/${id}/view`)
+        .then((res) => {
+            console.log(res);
+        }).catch(err => {
+            console.log(err)
+        });
     }
     fetchData();
   }, [id]);
+
 
   const getUpdatedAnswer = async () => {
     await axios.get(`/api/question/${id}`)
@@ -108,6 +116,30 @@ const MainQuestion = () => {
     }
   }
 
+  const handleVote = async (vote) => {
+    const data = {
+      vote: vote
+    }
+    await axios.put(`/api/question/${id}/vote`, data).then((res) => {
+      console.log(res.data)
+      getUpdatedAnswer();
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
+  const handleAnswerVote = async (vote, id) => {
+    const data = {
+      vote: vote
+    }
+    await axios.put(`/api/answer/${id}/vote`, data).then((res) => {
+      console.log(res.data)
+      getUpdatedAnswer();
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
   return (
     <div className="main">
       <div className="main-container">
@@ -123,7 +155,7 @@ const MainQuestion = () => {
           <div className="info">
             <p>{new Date(questionDetails.created_at).toLocaleString()}</p>
             <p>Active<span>today</span></p>
-            <p>Viewd<span>43 times</span></p>
+            <p>Viewd<span>{questionDetails?.views > 1000 ? `${(questionDetails?.views / 1000).toFixed(1)}k` : questionDetails?.views} times</span></p>
           </div>
         </div>
 
@@ -132,9 +164,9 @@ const MainQuestion = () => {
             <div className="all-questions-left">
               <div className="all-options">
 
-                <p className="arrow">▲</p>
-                <p className="arrow">0</p>
-                <p className="arrow">▼</p>
+                <p className="arrow" onClick={()=> {handleVote(1)}}>▲</p>
+                <p className="votes">{questionDetails?.votes}</p>
+                <p className="arrow" onClick={() => {handleVote(-1)}}>▼</p>
 
                 <BookmarkIcon />
                 <HistoryIcon />
@@ -208,9 +240,9 @@ const MainQuestion = () => {
                   <div className="all-questions-left">
                     <div className="all-options">
 
-                      <p className="arrow">▲</p>
-                      <p className="arrow">0</p>
-                      <p className="arrow">▼</p>
+                      <p className="arrow" onClick={() => {handleAnswerVote(1,answer._id)}} >▲</p>
+                      <p className="votes">{answer?.votes}</p>
+                      <p className="arrow" onClick={() => {handleAnswerVote(-1,answer._id)}}>▼</p>
 
                       <BookmarkIcon />
                       <HistoryIcon />

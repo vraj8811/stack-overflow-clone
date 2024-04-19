@@ -5,6 +5,19 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import AllQuestion from './AllQuestion';
 
 const Main = ({ questions }) => {
+    
+    const handleQuestion = (ord) => {
+        if(ord === "newest"){
+            questions.sort((a, b) => a.created_at > b.created_at ? -1 : 1)
+        }
+        if(ord === "mostViewed"){
+            questions.sort((a, b) => a.views > b.views ? -1 : 1)
+        }
+        if(ord === "mostLiked"){
+            questions.sort((a, b) => a.votes > b.votes ? -1 : 1)
+        }
+    }
+
     return (
         <div className="main">
             <div className="main-container">
@@ -23,15 +36,15 @@ const Main = ({ questions }) => {
                         <div className="main-tabs">
 
                             <div className="main-tab">
-                                <Link>Newest</Link>
+                                <Link onClick={() => {handleQuestion("newest")}}>Newest</Link>
                             </div>
 
                             <div className="main-tab">
-                                <Link>Active</Link>
+                                <Link onClick={() => {handleQuestion("mostViewed")}}>Most Viewed</Link>
                             </div>
 
                             <div className="main-tab">
-                                <Link>More</Link>
+                                <Link onClick={() => {handleQuestion("mostLiked")}}>Most Liked</Link>
                             </div>
 
                         </div>
