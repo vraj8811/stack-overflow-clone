@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import './index.css';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, provider } from '../../firebase'
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/userSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
+
+
 
 const Index = () => {
     const [register, setRegister] = useState(false);
@@ -12,11 +14,13 @@ const Index = () => {
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
     const [loading, setLoading] = useState(false);
+    const [resetModalOpen, setResetModalOpen] = useState(false);
+    const [resetEmail, setResetEmail] = useState("");
     const [error, setError] = useState("");
     const navi = useNavigate();
     const user = useSelector(selectUser);
 
-    if(user){
+    if (user) {
         navi("/");
     }
 
@@ -31,6 +35,8 @@ const Index = () => {
         signInWithPopup(auth, provider).then((res) => {
             navi("/");
             console.log(res);
+        }).catch((err) => {
+            console.log(err);
         })
     }
 
@@ -85,7 +91,34 @@ const Index = () => {
 
     function clearError() {
         setError("");
-      }
+    }
+
+    const handleForgotPassword = () => {
+        const email = prompt("Please enter your email");
+        if (email) {
+            sendPasswordResetEmail(auth, email)
+                .then(() => {
+                    alert("Password reset link sent to your email");
+                })
+                .catch((error) => {
+                    alert("Failed to send password reset link");
+                });
+        }
+    }
+
+    // const handleSendResetLink = () => {
+    //     sendPasswordResetEmail(auth, resetEmail)
+    //         .then(() => {
+    //             console.log("Password reset email sent successfully");
+    //             setResetModalOpen(false);
+    //             // You can provide feedback to the user here
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error sending password reset email:", error);
+    //             setResetModalOpen(false);
+    //             // Handle error and provide feedback to the user
+    //         });
+    // }
 
     return (
         <div className='auth'>
@@ -138,6 +171,8 @@ const Index = () => {
                                         {loading ? 'Signing In..' : 'Login'}
                                     </button>
 
+                                    <p onClick={handleForgotPassword} style={{ font:'small-caption',textAlign: 'end', color: "#0095ff", textDecoration: "underline", cursor: "pointer" }}>Forgot Password?</p>
+
                                 </>)
                         }
 
@@ -172,9 +207,9 @@ const Index = () => {
                 </div>
                 {
                     error !== "" && (<p style={{
-                        color:"red",
-                        fontSize:"14px",
-                        marginTop:"20px"
+                        color: "red",
+                        fontSize: "14px",
+                        marginTop: "20px"
                     }}>
                         {error}
                     </p>)

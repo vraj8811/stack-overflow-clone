@@ -3,17 +3,18 @@ import './CSS/Main.css';
 import { Link } from 'react-router-dom'
 import FilterListIcon from '@mui/icons-material/FilterList';
 import AllQuestion from './AllQuestion';
+import { getAuth, sendEmailVerification, signInWithEmailAndPassword, updateCurrentUser, updateEmail } from 'firebase/auth';
 
 const Main = ({ questions }) => {
-    
+
     const handleQuestion = (ord) => {
-        if(ord === "newest"){
+        if (ord === "newest") {
             questions.sort((a, b) => a.created_at > b.created_at ? -1 : 1)
         }
-        if(ord === "mostViewed"){
+        if (ord === "mostViewed") {
             questions.sort((a, b) => a.views > b.views ? -1 : 1)
         }
-        if(ord === "mostLiked"){
+        if (ord === "mostLiked") {
             questions.sort((a, b) => a.votes > b.votes ? -1 : 1)
         }
     }
@@ -36,15 +37,15 @@ const Main = ({ questions }) => {
                         <div className="main-tabs">
 
                             <div className="main-tab">
-                                <Link onClick={() => {handleQuestion("newest")}}>Newest</Link>
+                                <Link onClick={() => { handleQuestion("newest") }}>Newest</Link>
                             </div>
 
                             <div className="main-tab">
-                                <Link onClick={() => {handleQuestion("mostViewed")}}>Most Viewed</Link>
+                                <Link onClick={() => { handleQuestion("mostViewed") }}>Most Viewed</Link>
                             </div>
 
                             <div className="main-tab">
-                                <Link onClick={() => {handleQuestion("mostLiked")}}>Most Liked</Link>
+                                <Link onClick={() => { handleQuestion("mostLiked") }}>Most Liked</Link>
                             </div>
 
                         </div>
