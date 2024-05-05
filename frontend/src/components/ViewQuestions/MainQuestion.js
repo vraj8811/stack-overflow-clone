@@ -10,6 +10,9 @@ import axios from 'axios';
 import ReactHtmlParser from 'react-html-parser';
 import { useSelector } from 'react-redux';
 import { selectUser } from "../../features/userSlice";
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../firebase';
+import toast from 'react-hot-toast';
 
 const MainQuestion = () => {
   const [show, setShow] = useState(false);
@@ -17,25 +20,59 @@ const MainQuestion = () => {
   const [body, setBody] = useState('');
   const [comments, setComments] = useState("");
   const user = useSelector(selectUser);
+  const [name, setName] = useState();
 
   let search = window.location.search;
   const params = new URLSearchParams(search);
   const id = params.get('q');
+
+  const [questionuserData, setUserData] = useState();
+  const [loginuserData, setloginUserData] = useState();
+
+  const fetchUserData = async (id) => {
+    try {
+      const docSnap = await getDoc(doc(db, 'users', id));
+      if (docSnap.exists()) {
+        setUserData(docSnap.data());
+      } else {
+        console.log("No such document!");
+      }
+    } catch (error) {
+      // console.error("Error getting document: ", error);
+      return error.message;
+    }
+  }
+  const fetchUserData1 = async (id) => {
+    try {
+      const docSnap = await getDoc(doc(db, 'users', id));
+      if (docSnap.exists()) {
+        setloginUserData(docSnap.data());
+      } else {
+        console.log("No such document!");
+      }
+    } catch (error) {
+      console.error("Error getting document: ", error);
+      return error.message;
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       await axios.get(`/api/question/${id}`)
         .then((res) => {
           setQuestionDetails(res.data[0])
+          console.log(res.data[0])
+          fetchUserData(res.data[0].user.uid);
+          fetchUserData1(user.uid);
         }).catch(err => {
           console.log(err)
         });
 
-        await axios.put(`api/question/${id}/view`)
+      await axios.put(`api/question/${id}/view`)
         .then((res) => {
-            console.log(res);
+          console.log(res);
         }).catch(err => {
-            console.log(err)
+          console.log(err)
         });
     }
     fetchData();
@@ -79,7 +116,7 @@ const MainQuestion = () => {
       const data = {
         answer: body,
         question_id: id,
-        user: user,
+        user: loginuserData
       }
       const config = {
         headers: {
@@ -88,11 +125,12 @@ const MainQuestion = () => {
       };
       await axios.post('/api/answer', data, config).then((res) => {
         console.log(res.data)
-        alert('Answer Added Successfully');
+        toast.success('Answer Added Successfully !!', { style: { background: '#333', color: '#fff' } });
         setBody('');
         getUpdatedAnswer();
       }).catch(err => {
-        console.log(err)
+        toast.error('Something went wrong !!', { style: { background: '#333', color: '#fff' } });
+        // console.log(err)
       })
     }
   };
@@ -102,16 +140,18 @@ const MainQuestion = () => {
       const data = {
         comment: comments,
         question_id: id,
-        user: user,
+        user: loginuserData,
       }
       await axios.post(`/api/comment/${id}`, data).then((res) => {
         console.log(res.data)
-        alert('Comment Added Successfully');
+        // alert('Comment Added Successfully');
+        toast.success('Comment Added Successfully !!', { style: { background: '#333', color: '#fff' } });
         setComments('');
         setShow(false);
         getUpdatedAnswer();
       }).catch(err => {
-        console.log(err)
+        // console.log(err)
+        toast.error('Something went wrong !!', { style: { background: '#333', color: '#fff' } }); 
       })
     }
   }
@@ -164,9 +204,9 @@ const MainQuestion = () => {
             <div className="all-questions-left">
               <div className="all-options">
 
-                <p className="arrow" onClick={()=> {handleVote(1)}}>▲</p>
+                <p className="arrow" onClick={() => { handleVote(1) }}>▲</p>
                 <p className="votes">{questionDetails?.votes}</p>
-                <p className="arrow" onClick={() => {handleVote(-1)}}>▼</p>
+                <p className="arrow" onClick={() => { handleVote(-1) }}>▼</p>
 
                 <BookmarkIcon />
                 <HistoryIcon />
@@ -183,8 +223,8 @@ const MainQuestion = () => {
                 </small>
 
                 <div className="auth-details">
-                  <Avatar src={questionDetails?.user?.photo} />
-                  <p>{questionDetails?.user?.displayName ? questionDetails?.user?.displayName : String(questionDetails?.user?.email).split('@')[0]}</p>
+                  <Avatar src={questionuserData ? (questionuserData.photo) : (questionDetails?.user?.photo)} />
+                  <p>{questionuserData ? (questionuserData.name) : (questionDetails?.user?.displayName ? questionDetails?.user?.displayName : String(questionDetails?.user?.email).split('@')[0])}</p>
                 </div>
 
               </div>
@@ -193,7 +233,9 @@ const MainQuestion = () => {
                 <div className="comment">
                   {
                     questionDetails?.comments && questionDetails?.comments?.map((comment) => (
-                      <p>{comment?.comment} - <span>{comment?.user?.displayName ? comment?.user?.displayName : String(comment?.user?.email).split('@')[0]}</span> <small>{new Date(comment?.created_at).toLocaleString()}</small></p>
+                      <>
+                        <p>{comment?.comment} - <span>{comment.user.name ? comment.user.name : comment?.user?.displayName ? comment?.user?.displayName : String(comment?.user?.email).split('@')[0]}</span> <small>{new Date(comment?.created_at).toLocaleString()}</small></p>
+                      </>
                     ))
                   }
                 </div>
@@ -240,9 +282,9 @@ const MainQuestion = () => {
                   <div className="all-questions-left">
                     <div className="all-options">
 
-                      <p className="arrow" onClick={() => {handleAnswerVote(1,answer._id)}} >▲</p>
+                      <p className="arrow" onClick={() => { handleAnswerVote(1, answer._id) }} >▲</p>
                       <p className="votes">{answer?.votes}</p>
-                      <p className="arrow" onClick={() => {handleAnswerVote(-1,answer._id)}}>▼</p>
+                      <p className="arrow" onClick={() => { handleAnswerVote(-1, answer._id) }}>▼</p>
 
                       <BookmarkIcon />
                       <HistoryIcon />
@@ -260,12 +302,12 @@ const MainQuestion = () => {
 
                       <div className="auth-details">
                         <Avatar src={answer?.user.photo} />
-                        <p>{answer?.user?.displayName ? answer?.user?.displayName : String(answer?.user?.email).split('@')[0]}</p>
+                        <p>{ answer.user.name ? answer.user.name :  answer?.user?.displayName ? answer?.user?.displayName : String(answer?.user?.email).split('@')[0]}</p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <hr style={{marginTop:"7px",marginBottom:"7px",color:"#c9cacfa2",filter: "brightness(1)"}} />
+                <hr style={{ marginTop: "7px", marginBottom: "7px", color: "#c9cacfa2", filter: "brightness(1)" }} />
               </>
             ))
           }

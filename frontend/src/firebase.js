@@ -1,7 +1,10 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {getAuth,GoogleAuthProvider} from 'firebase/auth'
+import {getAuth,GoogleAuthProvider,GithubAuthProvider} from 'firebase/auth'
+import { getFirestore } from "firebase/firestore";
 import { APIKEY } from "./Asset";
+import { getStorage } from "firebase/storage";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -14,10 +17,13 @@ const firebaseConfig = {
   storageBucket: "stackoverflow-b6223.appspot.com",
   messagingSenderId: "901920566798",
   appId: "1:901920566798:web:acef7ca144339a1d65d65f",
-  measurementId: "G-GMZ2RW9WWE"
+  measurementId: "G-GMZ2RW9WWE",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth();
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
 export const provider = new GoogleAuthProvider();
+export const gitProvider = new GithubAuthProvider();

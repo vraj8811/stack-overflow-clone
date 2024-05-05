@@ -1,128 +1,128 @@
 .all-questions {
-    display: flex;
-    width: 100%;
-    padding: 20px 0px;
-    border-bottom: 1px solid #eee;
-    width: 100%;
+    display: flex !important;
+    width: 100% !important;
+    padding: 20px 0px !important;
+    border-bottom: 1px solid #eee !important;
+    width: 100% !important;
   }
   
   .all-questions-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    width: 100% !important;
   }
   
   .all-questions-left {
-    display: flex;
-    margin-right: 30px;
+    display: flex !important;
+    margin-right: 30px !important;
   }
   
   .all-options {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: rgba(0, 0, 0, 0.7);
-    font-size: small;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    color: rgba(0, 0, 0, 0.7) !important;
+    font-size: small !important;
   }
   
   .all-option {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 10px;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    margin-bottom: 10px !important;
   }
   
   .all-option > p {
-    font-size: large;
+    font-size: large !important;
   }
   
   .question-answer {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
   }
   
   .question-answer > a {
-    color: #0151f0d8;
-    font-size: 1.1rem;
-    margin-bottom: 10px;
+    color: #0151f0d8 !important;
+    font-size: 1.1rem !important;
+    margin-bottom: 10px !important;
   }
   .question-answer > a:hover {
-    color: #1649b1d8;
-    font-size: 1.1rem;
-    margin-bottom: 10px;
+    color: #1649b1d8 !important;
+    font-size: 1.1rem !important;
+    margin-bottom: 10px !important;
   }
   
   .question-answer > p {
-    font-size: 0.9rem;
-    color: rgba(0, 0, 0, 0.7);
-    margin-bottom: 10px;
+    font-size: 0.9rem !important;
+    color: rgba(0, 0, 0, 0.7) !important;
+    margin-bottom: 10px !important;
   }
 
   .question-tags{
-    margin: 10px 5px;
-    padding: 5px 10px;
-    background-color: #0151f03d;
-    border-radius: 3px;
+    margin: 10px 5px !important;
+    padding: 5px 10px !important;
+    background-color: #0151f03d !important;
+    border-radius: 3px !important;
   }
   
   .author {
-    display: flex;
-    flex-direction: column;
-    margin-left: auto;
+    display: flex !important;
+    flex-direction: column !important;
+    margin-left: auto !important;
   }
   
   .author > small {
-    color: rgba(0, 0, 0, 0.5);
-    margin-bottom: 5px;
+    color: rgba(0, 0, 0, 0.5) !important;
+    margin-bottom: 5px !important;
   }
   
   .auth-details {
-    display: flex;
-    align-items: center;
+    display: flex !important;
+    align-items: center !important;
   }
   
   .auth-details > p {
-    margin-left: 5px;
-    font-size: small;
-    color: #0151f0d8;
+    margin-left: 5px !important;
+    font-size: small !important;
+    color: #0151f0d8 !important;
   }
   
   .comments {
-    margin: 10px 0;
-    width: 90%;
-    margin-left: auto;
+    margin: 10px 0 !important;
+    width: 90% !important;
+    margin-left: auto !important;
   }
   
   .comment {
-    display: flex;
-    flex-direction: column;
-    font-size: 0.9rem;
-    padding: 10px 0px;
-    border-bottom: 1px solid #eee;
-    border-top: 1px solid #eee;
+    display: flex !important;
+    flex-direction: column !important;
+    font-size: 0.9rem !important;
+    padding: 10px 0px !important;
+    border-bottom: 1px solid #eee !important;
+    border-top: 1px solid #eee !important;
   }
   
   .comment > p {
-    margin: 10px 0;
+    margin: 10px 0 !important;
   }
   
   .comment > p > span {
-    padding: 3px;
-    background-color: #0151f028;
-    color: #0151f0d8;
-    border-radius: 2px;
+    padding: 3px !important;
+    background-color: #0151f028 !important;
+    color: #0151f0d8 !important;
+    border-radius: 2px !important;
   }
   
   .comments > p {
-    margin-left: -30px;
-    margin-top: 20px;
-    font-size: small;
-    cursor: pointer;
-    color: rgba(0, 0, 0, 0.4);
+    margin-left: -30px !important;
+    margin-top: 20px !important;
+    font-size: small !important;
+    cursor: pointer !important;
+    color: rgba(0, 0, 0, 0.4) !important;
   }
   
   .comments > p:hover {
-    color: #0151f0a2;
+    color: #0151f0a2 !important;
   }

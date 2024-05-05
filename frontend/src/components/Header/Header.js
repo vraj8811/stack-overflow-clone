@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Header.css';
 import SearchIcon from '@mui/icons-material/Search';
 import InboxIcon from '@mui/icons-material/Inbox';
@@ -7,11 +7,29 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { selectUser } from '../../features/userSlice';
 import { useSelector } from 'react-redux';
-import { auth } from '../../firebase';
+import { auth, db } from '../../firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 const Header = () => {
   const user = useSelector(selectUser);
   const navi = useNavigate();
+  const [userData, setUserData] = useState(null);
+
+    const fetchUserData = async () => {
+        try {
+            const docSnap = await getDoc(doc(db, 'users', user.uid));
+            if (docSnap.exists()) {
+                setUserData(docSnap.data());
+            } else {
+                console.log("No such document!");
+            }
+        } catch (error) {
+            console.error("Error getting document: ", error);
+            return error.message;
+        }
+    }
+
+    fetchUserData();
 
   return (
     <header>
@@ -34,9 +52,9 @@ const Header = () => {
         <div className="header-right">
           <div className="header-right-container">
 
-            <Avatar src={user?.photo} />
+            <Avatar src={userData?.isGoogle === true ? user?.photo : userData?.photo } style={{cursor:"pointer"}} onClick={()=>{navi("/profile")}} />
 
-            <InboxIcon />
+            <InboxIcon style={{fontSize:'50px'}}/>
             <svg
               aria-hidden="true"
               className="svg-icon iconStackExchange"
@@ -50,7 +68,7 @@ const Header = () => {
             >
               <path d="M15 1H3a2 2 0 00-2 2v2h16V3a2 2 0 00-2-2ZM1 13c0 1.1.9 2 2 2h8v3l3-3h1a2 2 0 002-2v-2H1v2Zm16-7H1v4h16V6Z"></path>
             </svg>
-            {user ? (<LogoutIcon onClick={() => {
+            {user ? (<LogoutIcon style={{fontSize:'50px'}} onClick={() => {
               auth.signOut();
               navi("/auth");
             }} /> ) :(<></>) }

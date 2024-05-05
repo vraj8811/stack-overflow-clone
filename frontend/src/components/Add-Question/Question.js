@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { selectUser } from "../../features/userSlice";
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 //import { Delta } from 'quill';
 
 const Question = () => {
@@ -53,14 +54,15 @@ const Question = () => {
             }
 
             await axios.post('/api/question', data).then((res) => {
-                alert('Question Added Successfully');
+                // alert('Question Added Successfully');
+                toast.success('Question Added Successfully !!', { style: { background: '#333', color: '#fff' } });
                 setLoading(false);
                 setTitle('');
                 setBody('');
                 setTag([]);
                 navi('/');
             }).catch((err) => {
-                alert('Something went wrong, Please try again later');
+                toast.error('Something went wrong !!', { style: { background: '#333', color: '#fff' } });
                 setTitle('');
                 setBody('');
                 setTag([]);
@@ -72,7 +74,8 @@ const Question = () => {
 
 
     return (
-        <>
+        <>  
+        <Toaster/>
             {
                 user ? (<div className="add-question">
                     <div className="add-question-container">

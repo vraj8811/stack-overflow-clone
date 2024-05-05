@@ -11,7 +11,7 @@ const Sidebar = () => {
             <div className="sidebar-container">
                 <div className="sidebar-options">
                     <div className="sidebar-option">
-                        <Link>Home</Link>
+                        <Link to='/' >Home</Link>
                     </div>
 
                     <div className="sidebar-option">

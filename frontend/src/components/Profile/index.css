@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    width: 60%;
+}
+
+.img-container {
+    display: flex;
+    flex-direction: column;
+    height: 150px;
+    width: 150px;
+    border: solid #000000 3px;
+    overflow: hidden;
+}
+
+.img-container>img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.name {
+    margin-left: 20px;
+    margin-top: 45px;
+}
+
+/* .main>p { */
+    p.name{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 50px;
+    /* margin-top: 0; */
+}
+
+.btn{
+    display: inline-flex;
+    margin-right: -100px;
+    height: 40px;
+    width: fit-content;
+}
